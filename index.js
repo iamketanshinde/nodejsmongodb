@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 app.use(express.urlencoded({ extended: false }));
-// app.use(express.json()); 
+app.use(express.json());  
 
 app.use((req, res, next) => {
     fs.appendFile(
@@ -58,28 +58,26 @@ app.get('/users', async (req, res) => {
     `;
     res.send(html);
 });
-
+  
 app.get('/api/users', async (req, res) => {
     const allDbUsers = await User.find({});
-    res.setHeader("X-MyName", "PiyushShinde");
+    // res.setHeader("X-MyName", "PiyushShinde");
     return res.json(allDbUsers);
 });
 
 app.route('/api/users/:id')
     .get(async (req, res) => {
-        try {
             const user = await User.findById(req.params.id);
             if (!user) return res.status(404).json({ error: 'User not found' });
             return res.json(user);
-        } catch (err) {
-            return res.status(500).json({ error: 'Invalid ID format' });
-        }
     })
-    .patch((req, res) => {
-        return res.json({ status: "pending" });
+    .patch(async(req, res) => { 
+        await User.findByIdAndUpdate(req.params.id,{last_name:"changed"})
+        return res.json({ status: "success" });
     })
-    .delete((req, res) => {
-        return res.json({ status: "pending" });
+    .delete(async(req, res) => {
+        await User.findByIdAndDelete(req.params.id)
+        return res.json({ status: "success" });
     });
 
 app.post('/api/users/', async (req, res) => {
