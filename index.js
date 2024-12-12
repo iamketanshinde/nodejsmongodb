@@ -2,7 +2,6 @@ const { Timestamp } = require('bson');
 const express = require('express');
 const PORT = 4000;
 const fs = require("fs");
-const mongoose = require('mongoose');
 
 const app = express();
 
@@ -10,29 +9,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/MongoDb-local-host')
   .then(() => console.log('MongoDb Connected'))
   .catch((err) => console.error('Mongo Connection Error:', err));
  
-    
-const userSchema = new mongoose.Schema({
-    first_name: {
-        type: String,
-        required: true,
-    },
-    last_name: {
-        type: String,
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    gender: {
-        type: String,
-    },
-    job_title: {
-        type: String,
-    }
-},{timestamps:true});
 
-const User = mongoose.model('User', userSchema);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());  
