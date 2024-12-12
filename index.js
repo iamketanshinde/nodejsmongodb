@@ -2,15 +2,17 @@ const { Timestamp } = require('bson');
 const express = require('express');
 const PORT = 4000;
 const fs = require("fs");
-const userRoutes = require("./routes/user")
 const app = express();
 
-mongoose.connect('mongodb://127.0.0.1:27017/MongoDb-local-host')
-  .then(() => console.log('MongoDb Connected'))
-  .catch((err) => console.error('Mongo Connection Error:', err));
+const userRoutes = require("./routes/user");
+const {connectMongooDb} = require('./connection');
+
+// mongoose.connect('mongodb://127.0.0.1:27017/MongoDb-local-host')
+//   .then(() => console.log('MongoDb Connected'))
+//   .catch((err) => console.error('Mongo Connection Error:', err));
  
 
-
+connectMongooDb('mongodb://127.0.0.1:27017/MongoDb-local-host')
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());  
 
