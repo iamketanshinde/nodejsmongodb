@@ -1,6 +1,5 @@
 const User = require('../models/user')
-
-async function handlegetallusers(){
+async function handlegetallusers(req, res) {
     const allDbUsers = await User.find({});
     return res.json(allDbUsers);
 }

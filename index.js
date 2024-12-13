@@ -7,7 +7,10 @@ const { logReqRes } = require('./middleware');
 const userRoutes = require('./routes/user');
 
 // Connect to MongoDB
-connectMongooDb('mongodb://127.0.0.1:27017/MongoDb-local-host').then(()=>{console.log("MongoDb-Connected");});
+connectMongooDb('mongodb://127.0.0.1:27017/MongoDb-local-host')
+    .then(() => console.log('MongoDB Connected'))
+    .catch((err) => console.error('MongoDB Connection Error:', err));
+
 
 app.use(express.urlencoded({ extended: false }));
 
@@ -15,6 +18,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(logReqRes('log.txt'));
 
 // User routes
-app.use('/user', userRoutes);
+app.use('/api/users', userRoutes);
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
